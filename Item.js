@@ -6,11 +6,12 @@ class Item {
     }
     
     getModsFromText(item){
-        var lines = item.split("\n");
+        var lines = item.replace("\r", "").replace("\t","").split("\n");
+
         var mods = [];
         var Fractured = false;
         for(var i =0; i < lines.length; i++){
-            var currentLine = lines[(lines.length-1) - i];
+            var currentLine = lines[(lines.length-1) - i].trim();
             if(i == 0 && currentLine== 'Fractured Item'){
                 Fractured = true;
                 continue;
@@ -46,7 +47,7 @@ class Item {
 
     getTypeFromText(item) {
         var lines = item.split("\n");
-        return itemBases[lines[2]];
+        return itemBases[lines[2].trim()];
     }
 }
 

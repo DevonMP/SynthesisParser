@@ -7,6 +7,7 @@ class Recipe {
 		this.types = this.getModTypes(row);
         this.result = this.getResult(row);
         this.sortText = cheerio.load(row[3]).text();
+        this.TopTier = false;
     }
 
     getModTemplate(mod){

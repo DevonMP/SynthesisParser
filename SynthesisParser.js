@@ -1,6 +1,32 @@
+const express = require('express');
+var bodyParser = require('body-parser');
 const Recipe = require('./Recipe.js');
 const Item = require('./Item.js');
 const synthesisMods = require('./ItemSynthesisMods.json');
+const app = express();
+app.use(bodyParser())
+
+app.get('/', function(request, response) {
+	var html = `
+	  <html>
+		  <body>
+			  <form method="post" action="http://localhost:3000">Name: 
+				  <textarea name="item">
+				  </textarea>
+				  <input type="submit" value="Submit" />
+			  </form>
+		  </body>
+	  </html>`
+	response.writeHead(200, {'Content-Type': 'text/html'})
+	response.end(html)
+});
+app.post('/', function(request, response) {
+	response.writeHead(200, {'Content-Type': 'application/json'});
+	response.end(JSON.stringify(GetPossibleSynthesisMods(new Item(request.body.item), recipes)));
+});
+
+port = 3000
+app.listen(port)
 
 const sampleItem = `Rarity: Rare
 Hate Nail
@@ -25,12 +51,18 @@ function GetPossibleSynthesisMods(item, recipes){
 	var lastRecipe;
 	var wasMatch = false;
 	var validRecipes = [];
+	var output = [];
 	for(var i in recipes){
 		var currentRecipe = recipes[i];
 		if(currentRecipe.types.includes(item.itemType)){
 			validRecipes.push(currentRecipe);
+			if( lastRecipe != null && lastRecipe.text != currentRecipe.text){
+				lastRecipe.TopTier = true;
+			}
+			lastRecipe = currentRecipe;
 		}
 	}
+	lastRecipe = null;
 	var tier = 0;
 	for(var i in validRecipes){
 		var currentRecipe = validRecipes[i];
@@ -49,13 +81,13 @@ function GetPossibleSynthesisMods(item, recipes){
 		}
 
 		if(wasMatch && !isMatch){
-			console.log(currentRecipe.result + " " + tier);
+			output.push(currentRecipe);
 		}
 		wasMatch = isMatch;
 		lastRecipe = currentRecipe;
 	}
 
-	return null;
+	return output;
 }
 
 function loadRecipes(modData){
@@ -73,5 +105,4 @@ recipes.sort(function(a, b){
 	}
 	return a.text.localeCompare(b.text);
 });
-//console.log(recipes);
-GetPossibleSynthesisMods(myItem, recipes);
+//GetPossibleSynthesisMods(myItem, recipes);
