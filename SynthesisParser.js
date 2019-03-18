@@ -25,7 +25,7 @@ app.post('/', function(request, response) {
 	response.end(JSON.stringify(GetPossibleSynthesisMods(new Item(request.body.item), recipes)));
 });
 
-port = 3000
+port = process.env.PORT || 3000
 app.listen(port)
 
 const sampleItem = `Rarity: Rare
