@@ -4,22 +4,9 @@ const Recipe = require('./Recipe.js');
 const Item = require('./Item.js');
 const synthesisMods = require('./ItemSynthesisMods.json');
 const app = express();
-app.use(bodyParser())
+app.use(bodyParser.urlencoded()).use(express.static('public'));
 
-app.get('/', function(request, response) {
-	var html = `
-	  <html>
-		  <body>
-			  <form method="post" action="/">item: 
-				  <textarea name="item"></textarea>
-				  <input type="submit" value="Submit" />
-			  </form>
-		  </body>
-	  </html>`
-	response.writeHead(200, {'Content-Type': 'text/html'})
-	response.end(html)
-});
-app.post('/', function(request, response) {
+app.post('/itemdata', function(request, response) {
 	response.writeHead(200, {'Content-Type': 'application/json'});
 	response.end(JSON.stringify(GetPossibleSynthesisMods(new Item(request.body.item), recipes)));
 });
