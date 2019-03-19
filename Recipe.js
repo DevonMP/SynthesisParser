@@ -2,12 +2,13 @@ const cheerio = require('cheerio');
 
 class Recipe {
     constructor(row){
-        this.requiredMod = this.getModTemplate(row);
         this.text = cheerio.load(row[0]).text();
         this.value = row[1];
+        this.requiredMod = this.getModTemplate(row);
 		this.types = this.getModTypes(row);
         this.result = this.getResult(row);
         this.TopTier = false;
+        this.Tier = 0;
         if(this.text.indexOf("per second") > -1){
             this.value = this.value / 60;
         }

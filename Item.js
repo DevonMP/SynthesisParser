@@ -11,19 +11,19 @@ class Item {
         var mods = [];
         var Fractured = false;
         for(var i =0; i < lines.length; i++){
-            var currentLine = lines[(lines.length-1) - i].trim();
-            if(i == 0 && currentLine== 'Fractured Item'){
+            var currentLine = lines[i].trim();
+            if(currentLine.indexOf("(fractured)") > -1){
                 Fractured = true;
-                continue;
-            }
-            if( i > 1 && currentLine == "--------"){
-                return mods;
             }
             if (currentLine != "--------"){
                 mods.push({
                     modText: this.getModText(currentLine),
                     value:this.getModValue(currentLine)
                 });
+            }else if(Fractured){
+                return mods;
+            }else{
+                mods = [];
             }
         }
         return mods;
