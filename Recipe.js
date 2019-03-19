@@ -8,6 +8,9 @@ class Recipe {
 		this.types = this.getModTypes(row);
         this.result = this.getResult(row);
         this.TopTier = false;
+        if(this.text.indexOf("per second") > -1){
+            this.value = this.value / 60;
+        }
     }
 
     getModTemplate(mod){
