@@ -2,7 +2,7 @@ const express = require('express');
 var bodyParser = require('body-parser');
 const Recipe = require('./Recipe.js');
 const Item = require('./Item.js');
-const synthesisMods = require('./ItemSynthesisMods.json');
+const synthesisMods = require('./ItemSynthesisMods.json');// This file shamelessly taken from poe.db
 const app = express();
 app.use(bodyParser.urlencoded()).use(express.static('public'));
 
