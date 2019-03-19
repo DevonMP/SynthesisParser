@@ -14,25 +14,6 @@ app.post('/itemdata', function(request, response) {
 port = process.env.PORT || 3000
 app.listen(port)
 
-const sampleItem = `Rarity: Rare
-Hate Nail
-Coral Ring
---------
-Requirements:
-Level: 38
---------
-Item Level: 74
---------
-+22 to maximum Life
---------
-Adds 8 to 16 Cold Damage to Attacks (fractured)
-+62 to Evasion Rating (fractured)
-+17 to Dexterity
-+35% to Fire Resistance
-+11 Life gained on Kill
---------
-Fractured Item`;
-
 function GetPossibleSynthesisMods(item, recipes){
 	var lastRecipe;
 	var wasMatch = false;
@@ -42,7 +23,7 @@ function GetPossibleSynthesisMods(item, recipes){
 		var currentRecipe = recipes[i];
 		if(currentRecipe.types.includes(item.itemType)){
 			validRecipes.push(currentRecipe);
-			if( lastRecipe != null && lastRecipe.text != currentRecipe.text){
+			if( lastRecipe != null && lastRecipe.requiredMod != currentRecipe.requiredMod){
 				lastRecipe.TopTier = true;
 			}
 			lastRecipe = currentRecipe;
@@ -53,23 +34,20 @@ function GetPossibleSynthesisMods(item, recipes){
 	for(var i in validRecipes){
 		var currentRecipe = validRecipes[i];
 		var isMatch = false;
-		if(lastRecipe != null && lastRecipe.text != currentRecipe.text){
+		if(lastRecipe != null && lastRecipe.requiredMod != currentRecipe.requiredMod){
 			tier = 0;
+			wasMatch = false;
 		}
 		tier++;
-		
 		for(var x in item.mods){
-			if(item.mods[x].modText.match(currentRecipe.text) &&
-				item.mods[x].value * 3 > currentRecipe.value
+			if(!wasMatch &&
+				item.mods[x].modText.match(currentRecipe.requiredMod) &&
+				item.mods[x].value * 3 <= currentRecipe.value
 			){
-				isMatch = true;
+				output.push(currentRecipe);
+				wasMatch = true;
 			}
 		}
-
-		if(wasMatch && !isMatch){
-			output.push(currentRecipe);
-		}
-		wasMatch = isMatch;
 		lastRecipe = currentRecipe;
 	}
 
@@ -83,12 +61,10 @@ function loadRecipes(modData){
 	}
 	return modTemplates;
 }
-const myItem = new Item(sampleItem);
 const recipes = loadRecipes(synthesisMods.data);
 recipes.sort(function(a, b){
-	if(a.text.localeCompare(b.text) == 0){
+	if(a.requiredMod.localeCompare(b.requiredMod) == 0){
 		return a.value - b.value;
 	}
-	return a.text.localeCompare(b.text);
+	return a.requiredMod.localeCompare(b.requiredMod);
 });
-//GetPossibleSynthesisMods(myItem, recipes);

@@ -6,8 +6,8 @@ class Item {
     }
     
     getModsFromText(item){
-        var lines = item.replace("\r", "").replace("\t","").split("\n");
-
+        var lines = item.trim().replace("\t","").split("\n");
+        lines.filter(function(element){return element != "";});
         var mods = [];
         var Fractured = false;
         for(var i =0; i < lines.length; i++){

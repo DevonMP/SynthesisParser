@@ -2,11 +2,11 @@ const cheerio = require('cheerio');
 
 class Recipe {
     constructor(row){
-        this.text = this.getModTemplate(row);
+        this.requiredMod = this.getModTemplate(row);
+        this.text = cheerio.load(row[0]).text();
         this.value = row[1];
 		this.types = this.getModTypes(row);
         this.result = this.getResult(row);
-        this.sortText = cheerio.load(row[3]).text();
         this.TopTier = false;
     }
 
@@ -15,7 +15,7 @@ class Recipe {
         $('.mod-value').each(function(){
             $(this).text($(this).text().replace('%', '\\%').replace('+','\\+').replace('#', '\\d+'));
         });
-        return $.text();
+        return "^" + $.text() + "$";
     }
 
     getModTypes(mod){
