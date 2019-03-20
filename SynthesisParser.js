@@ -38,6 +38,7 @@ function GetPossibleSynthesisMods(item, recipes){
 	}
 	lastRecipe = null;
 	var tier = 0;
+	validRecipes.reverse();
 	for(var i in validRecipes){
 		var currentRecipe = validRecipes[i];
 		var isMatch = false;
@@ -46,6 +47,7 @@ function GetPossibleSynthesisMods(item, recipes){
 			wasMatch = false;
 		}
 		tier++;
+		currentRecipe.Tier = tier;
 		for(var x in item.mods){
 			var modValue = item.mods[x].value;
 			var modText = item.mods[x].modText;
@@ -55,9 +57,9 @@ function GetPossibleSynthesisMods(item, recipes){
 			}
 			if(!wasMatch &&
 				modText.match(currentRecipe.requiredMod) &&
-				modValue * 3 <= currentRecipe.value
+				modValue * 3 >= currentRecipe.value
 			){
-				output.push(currentRecipe);
+				output.push({recipe:lastRecipe, mod:item.mods[x]});
 				wasMatch = true;
 			}
 		}

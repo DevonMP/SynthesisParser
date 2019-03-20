@@ -2,3 +2,20 @@
     font-weight:bold;
     color:gold;
 }
+.Fractured{
+    position:relative;
+}
+.Fractured::before{
+    content: ' ';
+    box-sizing: border-box;
+    display:block;
+    position:absolute;
+    top:0;
+    left:-27px;
+    background:url(https://web.poecdn.com/image/item/popup/fractured-symbol.png?1552274277000) center no-repeat;
+    width:27px;
+    height:27px;
+}
+.tier{
+    color:#7f7f7f;
+}

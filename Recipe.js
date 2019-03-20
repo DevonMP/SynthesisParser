@@ -9,6 +9,7 @@ class Recipe {
         this.result = this.getResult(row);
         this.TopTier = false;
         this.Tier = 0;
+        this.fractured = false;
         if(this.text.indexOf("per second") > -1){
             this.value = this.value / 60;
         }

@@ -18,7 +18,8 @@ class Item {
             if (currentLine != "--------"){
                 mods.push({
                     modText: this.getModText(currentLine),
-                    value:this.getModValue(currentLine)
+                    value:this.getModValue(currentLine),
+                    fractured: currentLine.indexOf("(fractured)") > -1
                 });
             }else if(Fractured){
                 return mods;
