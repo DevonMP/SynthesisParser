@@ -17,3 +17,5 @@ $("#mainform").submit(function(e){
         }
     })
 });
+
+$("#item").click(function(){$(this).val("");});
