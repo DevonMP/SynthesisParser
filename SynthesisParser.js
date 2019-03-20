@@ -4,11 +4,18 @@ const Recipe = require('./Recipe.js');
 const Item = require('./Item.js');
 const synthesisMods = require('./ItemSynthesisMods.json');// This file shamelessly taken from poe.db
 const app = express();
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded()).use(express.static('public'));
 
 app.post('/itemdata', function(request, response) {
 	response.writeHead(200, {'Content-Type': 'application/json'});
 	response.end(JSON.stringify(GetPossibleSynthesisMods(new Item(request.body.item), recipes)));
+});
+
+app.post('/itemdataahk', function(request, response) {
+	var mods = GetPossibleSynthesisMods(new Item(request.body.item), recipes)
+	response.render('ahkitemdata', {mods:mods});
 });
 
 port = process.env.PORT || 3000

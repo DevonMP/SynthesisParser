@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" class="h-100">
+  <head>
+        <title>Synthesized Mods Calculator</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/custom.css">
+        <style>
+            ul, li{
+                margin:0;
+                padding:0;
+                font-size:small;
+            }
+        </style>
+    </head>
+    <body class="d-flex flex-column h-100">
+        <main role="main" class="flex-shrink-0">
+            <div class="container">
+                <div class="row">
+                    <ul id="possibleMods">
+                            <% mods.forEach(function(mod) { %>
+                                <li>
+                                    <ul>
+                                        <% mod.result.forEach(function(result) { %>
+                                            <li><%= result %></li>
+                                        <% }); %>
+                                    </ul>
+                                </li>
+                            <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
