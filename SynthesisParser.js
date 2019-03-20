@@ -40,9 +40,15 @@ function GetPossibleSynthesisMods(item, recipes){
 		}
 		tier++;
 		for(var x in item.mods){
+			var modValue = item.mods[x].value;
+			var modText = item.mods[x].modText;
+			if(currentRecipe.value < 0){
+				modText = modText.replace('reduced','increased').replace('+', '-');
+				modValue = modValue * -1;
+			}
 			if(!wasMatch &&
-				item.mods[x].modText.match(currentRecipe.requiredMod) &&
-				item.mods[x].value * 3 <= currentRecipe.value
+				modText.match(currentRecipe.requiredMod) &&
+				modValue * 3 <= currentRecipe.value
 			){
 				output.push(currentRecipe);
 				wasMatch = true;
