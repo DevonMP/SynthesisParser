@@ -21,10 +21,10 @@
                 <div class="row">
                     <ul id="possibleMods">
                             <% mods.forEach(function(mod) { %>
-                                <li>
+                                <li class="<%=(mod.TopTier ? 'TopTier' : '') %>">
                                     <ul>
                                         <% mod.result.forEach(function(result) { %>
-                                            <li><%= result %></li>
+                                            <li> <%= result %></li>
                                         <% }); %>
                                     </ul>
                                 </li>

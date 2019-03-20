@@ -18,7 +18,6 @@ ie.Visible := False
 
 #IfWinActive, ahk_class POEWindowClass
 ^a::
-    ie.Visible := False
     MouseGetPos, xpos, ypos 
     ie.Left := xpos
     ie.Top := ypos
@@ -26,12 +25,13 @@ ie.Visible := False
     Send, ^c
     sleep, 10
     PostData := BinArr_FromString("item=" . Clipboard)
-    ie.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
+    ie.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
     While ie.ReadyState != 4 {
         sleep, 100
     }
     ie.Visible := True
-
+    sleep, 1000
+    ie.Visible := False
 
 BinArr_FromString(str) {
 	oADO := ComObjCreate("ADODB.Stream")
