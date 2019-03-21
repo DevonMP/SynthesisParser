@@ -14,8 +14,40 @@ app.post('/itemdata', function(request, response) {
 });
 
 app.post('/itemdataahk', function(request, response) {
-	var mods = GetPossibleSynthesisMods(new Item(request.body.item), recipes)
-	response.render('ahkitemdata', {mods:mods});
+	var results = GetPossibleSynthesisMods(new Item(request.body.item), recipes)
+	response.render('ahkitemdata', {results:results});
+});
+
+app.get('/itemdataahk', function(request, response) {
+	var results = GetPossibleSynthesisMods(new Item(`Rarity: Rare
+	Viper Grinder
+	Tenderizer
+	--------
+	One Handed Mace
+	Physical Damage: 54-70 (augmented)
+	Elemental Damage: 6-15 (augmented)
+	Critical Strike Chance: 5.00%
+	Attacks per Second: 1.40
+	Weapon Range: 9
+	--------
+	Requirements:
+	Level: 58
+	Str: 185 (unmet)
+	--------
+	Sockets: R-B-R 
+	--------
+	Item Level: 61
+	--------
+	10% reduced Enemy Stun Threshold
+	--------
+	+34 to Strength (fractured)
+	14% reduced Enemy Stun Threshold (fractured)
+	Adds 5 to 8 Physical Damage
+	Adds 6 to 15 Cold Damage
+	10% chance to cause Bleeding on Hit
+	--------
+	Fractured Item`), recipes)
+	response.render('ahkitemdata', {results:results});
 });
 
 port = process.env.PORT || 3000

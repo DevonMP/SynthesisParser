@@ -9,9 +9,13 @@
         <link rel="stylesheet" href="css/custom.css">
         <style>
             ul, li{
-                margin:0;
-                padding:0;
                 font-size:small;
+            }
+            ul{
+                padding-left: 27px;
+            }
+            ul ul{
+                padding-left:0px;
             }
         </style>
     </head>
@@ -20,10 +24,12 @@
             <div class="container">
                 <div class="row">
                     <ul id="possibleMods">
-                            <% mods.forEach(function(mod) { %>
-                                <li class="<%=(mod.TopTier ? 'TopTier' : '') %>">
-                                    <ul>
-                                        <% mod.result.forEach(function(result) { %>
+                            <% results.forEach(function(mod) { %>
+                                <li>
+                                    <span class='mod'><%= mod.mod.modText %> </span>
+                                    <span class='tier'>Tier <%= mod.recipe.Tier %></span>
+                                    <ul class="<%=(mod.mod.Fractured ? 'Fractured' : '')%> <%=(mod.recipe.TopTier ? 'TopTier' : '') %>">
+                                        <% mod.recipe.result.forEach(function(result) { %>
                                             <li> <%= result %></li>
                                         <% }); %>
                                     </ul>
@@ -32,6 +38,9 @@
                     </ul>
                 </div>
             </div>
-        </main>
+        </main><script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script>
+            window.resizeTo(300,$("main").height() + 50);
+        </script>
     </body>
 </html>

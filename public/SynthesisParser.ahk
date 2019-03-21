@@ -25,6 +25,7 @@ ie.Visible := False
     Send, ^c
     sleep, 10
     PostData := BinArr_FromString("item=" . Clipboard)
+    ;ie.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
     ie.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
     While ie.ReadyState != 4 {
         sleep, 100
