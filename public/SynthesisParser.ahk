@@ -18,7 +18,7 @@ ie.Visible := False
 displaying := False
 
 #IfWinActive, ahk_class POEWindowClass
-^a::
+^b::
     displaying:= True
     MouseGetPos, xpos, ypos 
     ie.Left := xpos + 10
