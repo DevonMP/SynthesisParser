@@ -15,12 +15,14 @@ Winset, Alwaysontop, , ahk_id %hwnd%
 WinSet, ExStyle, ^0x80, ahk_id %hwnd%
 sleep, 10
 ie.Visible := False
+displaying := False
 
 #IfWinActive, ahk_class POEWindowClass
 ^a::
+    displaying:= True
     MouseGetPos, xpos, ypos 
-    ie.Left := xpos
-    ie.Top := ypos
+    ie.Left := xpos + 10
+    ie.Top := ypos + 10
     Header := "Content-Type: application/x-www-form-urlencoded"
     Send, ^c
     sleep, 10
@@ -31,8 +33,21 @@ ie.Visible := False
         sleep, 100
     }
     ie.Visible := True
-    sleep, 1000
+    MouseGetPos, StartVarX, StartVarY
+    CheckVarX := StartVarX
+    CheckVarY := StartVarY
+    while (StartVarX = CheckVarX and StartVarY = CheckVarY){
+        sleep, 100
+        MouseGetPos, StartVarX, StartVarY
+    }
     ie.Visible := False
+
+MouseMove() {
+	if (displaying != false) {
+        displaying :=false
+        ie.Visible := False
+    }
+}
 
 BinArr_FromString(str) {
 	oADO := ComObjCreate("ADODB.Stream")
