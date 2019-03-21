@@ -8,6 +8,7 @@ class Recipe {
 		this.types = this.getModTypes(row);
         this.result = this.getResult(row);
         this.TopTier = false;
+        this.BottomTier = false;
         this.Tier = 0;
         this.fractured = false;
         if(this.text.indexOf("per second") > -1){
