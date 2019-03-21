@@ -24,9 +24,9 @@ ie.Visible := False
     Header := "Content-Type: application/x-www-form-urlencoded"
     Send, ^c
     sleep, 10
-    PostData := BinArr_FromString("item=" . Clipboard)
-    ;ie.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
-    ie.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
+    PostData := BinArr_FromString("item=" . UriEncode(Clipboard))
+    ie.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
+    ;ie.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
     While ie.ReadyState != 4 {
         sleep, 100
     }
@@ -47,4 +47,31 @@ BinArr_FromString(str) {
 	oADO.Type := 1 ; adTypeBinary
 	oADO.Position := 3 ; Skip UTF-8 BOM
 	return oADO.Read, oADO.Close
+}
+
+UriEncode(Uri, Enc = "UTF-8")
+{
+	StrPutVar(Uri, Var, Enc)
+	f := A_FormatInteger
+	SetFormat, IntegerFast, H
+	Loop
+	{
+		Code := NumGet(Var, A_Index - 1, "UChar")
+		If (!Code)
+			Break
+		If (Code >= 0x30 && Code <= 0x39 ; 0-9
+			|| Code >= 0x41 && Code <= 0x5A ; A-Z
+			|| Code >= 0x61 && Code <= 0x7A) ; a-z
+			Res .= Chr(Code)
+		Else
+			Res .= "%" . SubStr(Code + 0x100, -1)
+	}
+	SetFormat, IntegerFast, %f%
+	Return, Res
+}
+StrPutVar(Str, ByRef Var, Enc = "")
+{
+	Len := StrPut(Str, Enc) * (Enc = "UTF-16" || Enc = "CP1200" ? 2 : 1)
+	VarSetCapacity(Var, Len, 0)
+	Return, StrPut(Str, &Var, Enc)
 }
