@@ -1,53 +1,32 @@
-ie := ComObjCreate("InternetExplorer.Application")
-ie.AddressBar := False
-ie.ToolBar := False
-ie.MenuBar := False
-ie.StatusBar := False
-ie.Visible := false  ; This is known to work incorrectly on IE7.
-ie.Width := 300
-ie.Height := 300
-hwnd := ie.hwnd
-ie.Left := -5000
-ie.Top := -5000
-ie.Visible := True
-Winset, Style, -0xC40000, ahk_id %hwnd%
-Winset, Alwaysontop, , ahk_id %hwnd%
-WinSet, ExStyle, ^0x80, ahk_id %hwnd%
-sleep, 10
-ie.Visible := False
-displaying := False
-
+Gui Add, ActiveX, xm w0 h0 vWB, Shell.Explorer2
+Gui, 1:+AlwaysOnTop -Border -SysMenu +Owner -Caption +ToolWindow
+WB.Silent := True
 #IfWinActive, ahk_class POEWindowClass
 ^b::
-    displaying:= True
-    MouseGetPos, xpos, ypos 
-    ie.Left := xpos + 10
-    ie.Top := ypos + 10
-    Header := "Content-Type: application/x-www-form-urlencoded"
     Send, ^c
-    sleep, 10
-    PostData := BinArr_FromString("item=" . UriEncode(Clipboard))
-    ;ie.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
-    ie.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
-    While ie.ReadyState != 4 {
+    sleep, 100
+    Header := "Content-Type: application/x-www-form-urlencoded"
+    PostString := "item=" . UriEncode(Clipboard)
+    PostData := BinArr_FromString("version=2&item=" . UriEncode(Clipboard))
+	WB.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
+    ;WB.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
+    While WB.ReadyState != 4 {
         sleep, 100
     }
-    ie.Visible := True
+    Height := WB.Document.getElementById("possibleMods").offsetHeight
+    GuiControl, Move, WB, x0, y0, w300, h%Height%
+    WB.Document.body.style.overflow:="hidden"
+    MouseGetPos, xpos, ypos 
+    xpos := xpos + 30
+    Gui, Show, x%xpos% y%ypos% h%Height% w300
     MouseGetPos, StartVarX, StartVarY
     CheckVarX := StartVarX
     CheckVarY := StartVarY
-    while (StartVarX = CheckVarX and StartVarY = CheckVarY){
+    while (Abs(StartVarX - CheckVarX) < 10 and Abs(StartVarY - CheckVarY) < 10){
         sleep, 100
-        MouseGetPos, StartVarX, StartVarY
+        MouseGetPos, CheckVarX, CheckVarY
     }
-    ie.Visible := False
-
-MouseMove() {
-	if (displaying != false) {
-        displaying :=false
-        ie.Visible := False
-    }
-}
+    Gui, Show, Hide
 
 BinArr_FromString(str) {
 	oADO := ComObjCreate("ADODB.Stream")

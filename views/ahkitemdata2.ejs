@@ -12,7 +12,18 @@
                 font-size:small;
             }
             ul{
-                padding-left: 27px;
+                margin:0;
+                padding-top:5px;
+                padding-bottom:5px;
+            }
+            ul > li{
+                padding-left:27px;
+                background-repeat: no-repeat;
+                background-position: left top;
+                background-size: 27px;
+            }
+            ul > li li{
+                padding-left:0;
             }
             ul ul{
                 list-style:none;
@@ -21,6 +32,7 @@
             }
             .tier{
                 float:right;
+                padding-right:5px;
                 font-size:smaller;
             }
             .mod{
@@ -30,12 +42,15 @@
             #possibleMods > li{
                 margin-bottom: 5px;
             }
+            body{
+                overflow:hidden;
+            }
+            li.Fractured{
+                background-image: url(https://web.poecdn.com/image/item/popup/fractured-symbol.png?1552274277000);
+            }
         </style>
     </head>
-    <body class="d-flex flex-column h-100">
-        <main role="main" class="flex-shrink-0">
-            <div class="container">
-                <div class="row">
+    <body class="">
                     <ul id="possibleMods">
                             <% results.forEach(function(mod) { %>
                                 <li class="<%=(mod.mod.fractured ? 'Fractured' : '')%>">
@@ -49,13 +64,6 @@
                                 </li>
                             <% }); %>
                     </ul>
-                </div>
-            </div>
-            <span style="font-size:smaller">There is a new version available, you might want to download it!</span>
-        </main>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script>
-            window.resizeTo(300,$("main").height() + 50);
-        </script>
+
     </body>
 </html>

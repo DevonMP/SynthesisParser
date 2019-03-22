@@ -16,7 +16,11 @@ app.post('/itemdata', function(request, response) {
 app.post('/itemdataahk', function(request, response) {
 	var results = GetPossibleSynthesisMods(new Item(request.body.item), recipes)
 	console.log(request.body.item);
-	response.render('ahkitemdata', {results:results});
+	if(!request.body.version){
+		response.render('ahkitemdata', {results:results});
+	}else{
+		response.render('ahkitemdata' + request.body.version, {results:results});
+	}
 });
 
 app.get('/itemdataahk', function(request, response) {
