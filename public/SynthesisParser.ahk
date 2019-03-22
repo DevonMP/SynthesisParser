@@ -8,8 +8,8 @@ WB.Silent := True
     Header := "Content-Type: application/x-www-form-urlencoded"
     PostString := "item=" . UriEncode(Clipboard)
     PostData := BinArr_FromString("version=2&item=" . UriEncode(Clipboard))
-	WB.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
-    ;WB.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
+	;WB.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
+    WB.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
     While WB.ReadyState != 4 {
         sleep, 100
     }
