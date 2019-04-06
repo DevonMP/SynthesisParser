@@ -1,5 +1,6 @@
 Gui Add, ActiveX, xm w0 h0 vWB, Shell.Explorer2
 Gui, 1:+AlwaysOnTop -Border -SysMenu +Owner -Caption +ToolWindow
+
 WB.Silent := True
 #IfWinActive, ahk_class POEWindowClass
 ^b::
@@ -7,17 +8,31 @@ WB.Silent := True
     sleep, 100
     Header := "Content-Type: application/x-www-form-urlencoded"
     PostString := "item=" . UriEncode(Clipboard)
-    PostData := BinArr_FromString("version=2&item=" . UriEncode(Clipboard))
+    PostData := BinArr_FromString("version=3&item=" . UriEncode(Clipboard))
 	;WB.Navigate("http://localhost:3000/itemdataahk",,, PostData, Header)
     WB.Navigate("http://synthesisparser.herokuapp.com/itemdataahk",,, PostData, Header)
+	
     While WB.ReadyState != 4 {
         sleep, 100
     }
     Height := WB.Document.getElementById("possibleMods").offsetHeight
     GuiControl, Move, WB, x0, y0, w300, h%Height%
+
     WB.Document.body.style.overflow:="hidden"
     MouseGetPos, xpos, ypos 
     xpos := xpos + 30
+
+	SysGet, PrimaryMonitor, MonitorPrimary
+	SysGet, MonitorSize, Monitor, %PrimaryMonitor%
+
+	if ypos + Height > MonitorSizeBottom {
+		if MonitorSizeBottom - Height > 0{
+			ypos := MonitorSizeBottom - Height
+		}
+	}
+	if xpos + 300 > MonitorSizeRight {
+		xpos := MonitorSizeRight - 300
+	}
     Gui, Show, x%xpos% y%ypos% h%Height% w300
     MouseGetPos, StartVarX, StartVarY
     CheckVarX := StartVarX

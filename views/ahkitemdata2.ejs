@@ -51,6 +51,9 @@
         </style>
     </head>
     <body class="">
+        <% if(version < 3){ %>
+        <span style="font-size:.5em;">There's a new version available!</span>
+        <% } %>
                     <ul id="possibleMods">
                             <% results.forEach(function(mod) { %>
                                 <li class="<%=(mod.mod.fractured ? 'Fractured' : '')%>">

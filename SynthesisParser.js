@@ -19,7 +19,7 @@ app.post('/itemdataahk', function(request, response) {
 	if(!request.body.version){
 		response.render('ahkitemdata', {results:results});
 	}else{
-		response.render('ahkitemdata' + request.body.version, {results:results});
+		response.render('ahkitemdata2' , {results:results, version:request.body.version});
 	}
 });
 
